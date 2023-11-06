@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        .container-fluid{
+            text-transform: capitalize;
+            text-align: center;
+            
+        }
+   
+        .playlists {
+            height: 350px;
+            width: auto;
+            overflow:auto;
+          
+        }
+
+
+        #playlist {
+            width: 300px;
+            height: 150px;
+            margin: 10px;
+            padding: auto;
+            text-align: center;
+            background-color: aliceblue;
+
+        }
+
+    </style>
+    <title>Home</title>
+</head>
+
+<body>
+
+    {% extends "general_user_navbar.html" %}
+
+
+    {% block content %}
+    <div class="container-fluid">
+
+        <!-- playlist container start -->
+
+        <div class="container-fluid">
+            <h1><label for="playlists">your playlists</label></h1>
+           
+
+            <div id="playlists" class="container-fluid" style="text-transform: capitalize">
+
+
+                {% if playlists|length == 0 %}
+                
+                <div style="text-align:center ; padding:20px;">
+                    <h2>No playlist Available</h2>
+                    <a  class="btn btn-primary"  href="/add_playlist/{{user.user_id}}">add a playlist</a>
+                </div>
+                
+
+                {% else %}
+                <div style="text-align:right ; padding:5px;">
+                    <a  class="btn btn-primary"  href="/add_playlist/{{user.user_id}}">add a playlist</a>
+                </div>
+ 
+                <div class="playlists container text-center">
+
+
+                    <div class="row row-cols-4">
+                        {% for playlist in playlists %}
+
+                        <div id="playlist" class="col  border border-primary-subtle" >
+
+                            <ul type="none">
+                                <li style="margin: 10px;">
+                                    <h4>{{playlist.playlist_name}}</h4>
+                                </li>
+                                
+
+                                <li style="margin: 50px;"> <a class="btn btn-info" href="/playlist_songs/{{user.user_id}}/{{playlist.playlist_id}}" role="button">Show Tracks</a></li>
+                            </ul>
+                        </div>
+
+
+
+
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+
+
+
+
+
+        <!-- playlist container ends here -->
+
+
+
+
+
+
+
+
+       
+    </div>
+
+
+
+
+    {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

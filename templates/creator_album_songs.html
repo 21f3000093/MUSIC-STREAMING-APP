@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+  <title>Album Songs</title>
+  
+  <style>
+
+
+    .songs {
+        width: auto;
+        height: auto;
+        border: 2px solid darkgray;
+        border-radius: 30px;
+        background-color: aliceblue;
+        text-align: center;
+        text-transform: capitalize;
+        overflow: auto;
+        
+        
+        margin-bottom: 20px;
+        padding: 10px;
+
+
+    }
+
+    .song1 {
+        width: auto;
+        height: auto;
+        border: 2px solid darkgray;
+        border-radius: 30px;
+        background-color: aliceblue;
+        margin: auto;
+        overflow: auto;
+
+    }
+
+    .song {
+        width: auto;
+        height: auto;
+        background-color: cornsilk;
+        border: 2px solid darkgray;
+        margin: 20px;
+        
+                   
+    }
+
+    .songs-heading{
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 20px;
+    }
+
+    .song-table{
+        width: 100%;
+        
+        
+        
+    }
+</style>
+</head>
+
+<body>
+
+
+  {% extends 'creator_navbar.html' %}
+  
+  {% block content %}
+
+
+          <!-- songs container Start-->
+
+          <div class="songs ">
+
+            {% if songs|length == 0 %}
+            <div style="text-align: center;">
+                <h3>Album is empty </h3>
+                <h3>start with uploading songs</h3>
+                <a class="btn btn-primary" href="/add_album_song/{{user.user_id}}/{{album.album_id}}" type="button">+Add Song</a>
+            </div>
+
+
+
+            {% else %}
+            <div style="font-size:xx-large" class="songs-heading">
+                <span style="font-weight:500">{{album.album_name}}</span>
+               <a style="text-align:right; float:inline-end" class="btn btn-primary" href="/add_album_song/{{user.user_id}}/{{album.album_id}}" type="button">+Add Song</a>
+            </div>
+            
+
+            <div class="song1">
+                
+
+                   
+
+
+                        {% for song in songs %}
+                        <div class="song">
+                            <table bgcolor="cornsilk" class="song-table">
+                            <tr >
+                                <td style="text-align: left;padding:10px;font-size:large;width:50%">{{song.song_name}}</td>
+
+
+                                <td>
+                                    <a class="btn btn-info"
+                                        href="/creator_song_lyrics/{{user.user_id}}/{{song.song_id}}"
+                                        type="button">Lyrics</a>
+                                </td>
+
+                                <td>
+                                    <a class="btn btn-warning" type="button"
+                                        href="/edit_song/{{user.user_id}}/{{song.song_id}}">Edit</a>
+
+
+                                </td>
+
+                                <td>
+                                    <a class="btn btn-danger" type="button"
+                                        href="/delete_album_song/{{user.user_id}}/{{album.album_id}}/{{song.song_id}}">delete</a>
+                                </td>
+
+                            </tr>
+                        </table>
+                        </div>
+                        {% endfor %}
+
+                    
+
+               
+
+
+                {% endif %}
+            </div>
+        </div>
+
+
+        <!-- songs container ends here-->
+
+
+  {% endblock %}
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

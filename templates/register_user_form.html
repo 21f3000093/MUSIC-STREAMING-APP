@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+        <style>
+            .container-fluid{
+                text-align: center;
+            }
+
+            .register{
+                width: 50%;
+                margin: auto;
+                margin-top: 1%;
+                background-color:aliceblue;
+                padding: 20px;
+            }
+        </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+
+        <div>
+
+            <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="/">Music Streaming Application</a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                      
+                      <a  class="nav-link" href="/admin_login" >App Admin Login</a>
+    
+                    </div>
+                  </div>
+                </div>
+              </nav>
+    
+        </div>
+
+        <div class="register">
+            <div>
+
+                <h1>User Registeration</h1>
+        
+            </div>
+        
+            <form action="/register_user" method="post">
+        
+        
+                <div class="mb-3">
+                    <label  for="u_name" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="u_name" name="username" placeholder="Example: shubham_010"
+                        aria-describedby="UsernameHelpBlock" required>
+                    <div id="UsernameHelpBlock" class="form-text">
+                        Your username must be 8-20 characters long, contain letters, numbers, underscores (_),and must not
+                        contain spaces,
+                        special characters, or emoji.
+                    </div>
+                </div>
+        
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Example: abcd@gmail.com" required>
+                </div>
+        
+                <div class="mb-3">
+        
+                    <label for="inputPassword5" class="form-label">Password</label>
+                    <input type="password" name="password" id="inputPassword5" class="form-control"
+                        aria-describedby="passwordHelpBlock" required>
+                    <div id="passwordHelpBlock" class="form-text">
+                        Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces,
+                        special characters, or emoji.
+                    </div>
+        
+                </div>
+        
+                <div class="mb-3">
+                    <label for="role" class="form-label">User_type</label>
+                    <input class="form-control" id="role" value="general_user" aria-label="readonly input example" readonly>
+                </div>
+        
+                <div class="grid gap-0 row-gap-3">
+        
+        
+                    <div class="p-2 g-col-6" class="mx-auto p-2">
+        
+                        <button style="padding: 10px; width:150px" class="btn btn-primary" type="submit">Register</button>
+        
+                    </div>
+        
+        
+                    <div class="p-2 g-col-6">
+                        <a style="padding: 10px; width:auto" class="btn btn-secondary" href="/user_login" role="button">Already have an account? Login Here!</a>
+                    </div>
+        
+        
+                </div>
+        
+        
+        
+            </form>
+        
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

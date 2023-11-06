@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Add Songs</title>
+  </head>
+  <body>
+
+    {% extends 'creator_navbar.html' %}
+
+    {% block content %}
+        
+    <div>
+        <h2>Upload Song</h2>
+
+    </div>
+   <div class="d-grid gap-3">
+    <form action="/add_album_song/{{user.user_id}}/{{album.album_id}}" method="post">
+
+
+        <div class="p-2 bg-light border">
+            <label for="sn">Title</label>
+            <input type="text" id="sn" name="s_name">
+        </div>
+
+        <div class="p-2 bg-light border">
+            <label for="sa">Artist</label>
+            <input type="text" id="sa" name="s_artist">
+        </div>
+
+        
+        <div class="p-2 bg-light border">
+            <label for="sl">Language</label>
+            <input type="text" id="sl" name="s_language">
+        </div>
+
+        <div class="p-2 bg-light border">
+            <label for="sg">Genre</label>
+            <input type="text" id="sg" name="s_genre">
+        </div>
+
+        <div class="p-2 bg-light border">
+            <label for="sly">LYRICS</label>
+            <textarea name="s_lyrics" id="sly" cols="100" rows="10" placeholder="ENTER LYRICS"></textarea>
+            
+        </div>
+
+        <div class="p-2 bg-light border">
+            <label for="sd">Duration</label>
+            <input type="number" id="sd" name="s_duration" placeholder="duration in seconds">
+        </div>
+        
+        <div class="p-2 bg-light border">
+            <label for="srd">RELEASE DATE</label>
+            <input type="date" id="srd" name="s_release_date">
+        </div>
+
+
+        <div class="p-2 bg-light border">
+            <label for="sp">Song Path</label>
+            <input type="text" id="sp" name="s_path">
+        </div>
+
+        <div class="p-2 bg-light border">
+            <label for="st">Thumbnail Path</label>
+            <input type="text" id="st" name="s_thumbnail">
+        </div>
+
+        <div class="p-2 bg-light border">
+            <button class="btn btn-primary" type="submit">ADD THIS SONG</button>
+        </div>
+
+
+
+
+    </form>
+    
+
+
+   </div>
+
+
+
+   {% endblock  %}
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+   
+  </body>
+</html>

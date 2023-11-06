@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Update Album</title>
+</head>
+
+<body>
+    {% extends 'creator_navbar.html' %}
+
+    {% block content %}
+
+    <div class="container-fluid" id="update_album">
+
+        <h2>Update Your Album</h2>
+
+        <div class="d-grid gap-3">
+            <form action="/edit_album/{{user.user_id}}/{{album.album_id}}" method="post">
+
+
+                <div class="p-2 bg-light border">
+                    <label for="an">NAME</label>
+                    <input type="text" id="an" placeholder="{{album.album_name}}" value="{{album.album_name}}"
+                        name="a_name">
+                </div>
+
+                <div class="p-2 bg-light border">
+                    <label for="ag">GENRE</label>
+                    <input type="text" id="ag" placeholder="{{album.album_genre}}" value="{{album.album_genre}}"
+                        name="a_genre">
+                </div>
+
+                <div class="p-2 bg-light border">
+                    <label for="a_art">ARTISTS</label>
+                    <input type="text" id="a_art" placeholder="{{album.album_artist}}" value="{{album.album_artist}}"
+                        name="a_artist">
+                </div>
+
+                <!-- <div class="p-2 bg-light border">
+            <label for="acid">CREATER ID</label>
+            <input type="number" id="acid" name="a_creator_id">
+        </div> -->
+
+
+                <div class="p-2 bg-light border">
+                    <label for="at">THUMBNAIL</label>
+                    <input type="text" id="at" placeholder="{{album.album_thumbnail}}" value="{{album.album_thumbnail}}"
+                        name="a_thumbnail">
+                </div>
+
+                <div style="padding: 10px;">
+                    <button class="btn btn-primary" type="submit">UPDATE ALBUM</button>
+                </div>
+
+
+
+
+            </form>
+
+
+
+        </div>
+    </div>
+
+
+
+
+    {% endblock %}
+
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

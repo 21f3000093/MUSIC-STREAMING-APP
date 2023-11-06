@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Add Album</title>
+</head>
+
+<body>
+    <div class="container-fluid" id="add_album">
+        <h2>Add a new Album</h2>
+
+        <div class="d-grid gap-3">
+            <form action="/add_album/{{user.user_id}}" method="post">
+
+
+                <div class="p-2 bg-light border">
+                    <label for="an">NAME</label>
+                    <input type="text" id="an" name="a_name">
+                </div>
+
+                <div class="p-2 bg-light border">
+                    <label for="ag">GENRE</label>
+                    <input type="text" id="ag" name="a_genre">
+                </div>
+
+                <div class="p-2 bg-light border">
+                    <label for="a_art">ARTISTS</label>
+                    <input type="text" id="a_art" name="a_artist">
+                </div>
+
+                <!-- <div class="p-2 bg-light border">
+            <label for="acid">CREATER ID</label>
+            <input type="number" id="acid" name="a_creator_id">
+        </div> -->
+
+
+                <div class="p-2 bg-light border">
+                    <label for="at">THUMBNAIL</label>
+                    <input type="text" id="at" name="a_thumbnail">
+                </div>
+
+                <div class="p-2 bg-light border">
+                    <button class="btn btn-primary" type="submit">ADD THIS ALBUM</button>
+                </div>
+
+
+
+
+            </form>
+
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
