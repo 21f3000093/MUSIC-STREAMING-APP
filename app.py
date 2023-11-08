@@ -560,16 +560,61 @@ def admin_home_page(a_id):
     admin = Admin.query.get(a_id)
     users=User.query.all()
     creators=User.query.filter_by(user_role_id=1).all()
+    genres = Song.query.with_entities(Song.song_genre).distinct().all()
+    genre_list = [genre[0] for genre in genres]
 
     if admin.isloggedin:
-        return render_template("admin_home.html", songs=songs, albums=albums, admin=admin,playlists=playlists,users=users,creators=creators)
+        return render_template("admin_home.html", songs=songs, albums=albums, admin=admin,playlists=playlists,users=users,creators=creators,genres=genre_list)
 
     else:
         return redirect("/")
     
 
+## admin logout
+@app.route("/admin_logout/<int:a_id>", methods=["GET", "POST"])
+def admin_logout(a_id):
+    admin = Admin.query.get(a_id)
+    admin.isloggedin = False
+    db.session.commit()
 
+    return redirect("/")
     
+
+@app.route("/admin_songs/<int:a_id>", methods=["GET", "POST"])
+def admin_songs(a_id):
+    admin = Admin.query.get(a_id)
+    songs = Song.query.all()
+    genres = Song.query.with_entities(Song.song_genre).distinct().all()
+    genre_list = [genre[0] for genre in genres]
+    if admin.isloggedin:
+        return render_template("admin_songs.html", songs=songs, admin=admin,genres=genre_list)
+
+    else:
+        return redirect("/")
+    
+
+@app.route("/flag_song/<int:a_id>/<int:s_id>")
+def flag_song(s_id,a_id):
+    admin = Admin.query.get(a_id)
+    song = Song.query.get(s_id)
+    song.song_flag = not song.song_flag
+    db.session.commit()
+    return redirect("/admin_songs/{}".format(a_id))
+
+
+
+# delete a song (for admin )
+@app.route("/admin_delete_song/<int:a_id>/<int:s_id>", methods=["GET", "POST"])
+def admin_delete_song(s_id, a_id):
+    song = Song.query.get(s_id)
+    
+    if request.method == "GET":
+        db.session.delete(song)
+        db.session.commit()
+        return redirect("/admin_songs/{}".format(a_id))
+    
+
+
 
 
 
