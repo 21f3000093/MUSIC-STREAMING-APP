@@ -1,13 +1,83 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  </body>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+        
+</head>
+
+<body>
+    <!-- navbar container -->
+    <div id="navbar" style="border: 2px solid darkgray;">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid ">
+                <a class="navbar-brand" href="/admin_home/{{admin.admin_id}}">Administrator Dashboard</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav" >
+                        
+                        <a style="width: 100px; font-size:large;" type="button" class="btn btn-outline-secondary m-2" href="#">Tracks</a>
+                        <a style="width: 100px; font-size:large;" type="button" class=" btn btn-outline-secondary m-2" href="#">Albums</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+<!-- Navbar ends here -->
+
+<!-- dashbord container -->
+    
+    <div class="container-fluid vh-100 text-center bg-primary-subtle">
+        <div class="row">
+            <div class="col-4 p-2 vh-100">
+                <div class="users m-4 h-25 bg-warning-subtle border border-3 border-black  rounded " id="users">
+                    <p class="fs-4 fw-medium">Normal User</p>
+                    <p class="fs-1 fw-semibold">{{users|length}}</p>
+                </div>
+                <div class="creators m-4 h-25 bg-warning-subtle border border-3 border-black rounded" id="creators">
+                    <p class="fs-4 fw-medium">Creators</p>
+                    <p class="fs-1 fw-semibold">{{creators|length}}</p>
+                </div>
+            </div>
+            <div class="col-8 p-2 vh-100 ">
+                <p class="fs-3 fw-semibold">App Performance</p>
+                <div class="row p-2">
+                    <div class="col tracks bg-warning-subtle m-2 border border-3 border-black rounded">
+                        <p class="fs-5 fw-medium">Total Songs</p>
+                        <p class="fs-2 fw-semibold">{{songs|length}}</p>
+                    </div>
+                    <div class="col albums m-2 bg-warning-subtle border border-3 border-black rounded">
+                        <p class="fs-5 fw-medium">Total Albums</p>
+                        <p class="fs-2 fw-semibold">{{albums|length}}</p>
+                    </div>
+                    <div class="col genres m-2 bg-warning-subtle border border-3 border-black rounded">
+                        <p class="fs-5 fw-medium">Genres</p>
+                        <p class="fs-2 fw-semibold">NA</p>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
 </html>

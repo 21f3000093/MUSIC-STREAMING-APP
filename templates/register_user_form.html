@@ -61,7 +61,7 @@
                 <div class="mb-3">
                     <label  for="u_name" class="form-label">Username</label>
                     <input type="text" class="form-control" id="u_name" name="username" placeholder="Example: shubham_010"
-                        aria-describedby="UsernameHelpBlock" required>
+                        aria-describedby="UsernameHelpBlock" required minlength="8" maxlength="20">
                     <div id="UsernameHelpBlock" class="form-text">
                         Your username must be 8-20 characters long, contain letters, numbers, underscores (_),and must not
                         contain spaces,
@@ -78,7 +78,7 @@
         
                     <label for="inputPassword5" class="form-label">Password</label>
                     <input type="password" name="password" id="inputPassword5" class="form-control"
-                        aria-describedby="passwordHelpBlock" required>
+                        aria-describedby="passwordHelpBlock" required minlength="8" maxlength="20">
                     <div id="passwordHelpBlock" class="form-text">
                         Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces,
                         special characters, or emoji.
