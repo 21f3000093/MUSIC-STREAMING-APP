@@ -14,10 +14,16 @@
 </head>
 
 <body>
-    <div class="container-fluid" id="add_album">
-        <h2>Add a new Album</h2>
 
-        <div class="d-grid gap-3">
+    {% extends 'creator_navbar.html' %}
+
+    {% block content %}
+
+
+    <div class="container-fluid w-50 " id="add_album">
+        <h2 class="text-center mb-5 mt-2">Add a new Album</h2>
+
+        <div class="d-grid gap-3 p-auto">
             <form action="/add_album/{{user.user_id}}" method="post">
 
 
@@ -47,7 +53,7 @@
                     <input type="text" id="at" name="a_thumbnail">
                 </div>
 
-                <div class="p-2 bg-light border">
+                <div class="p-2 bg-light border text-center">
                     <button class="btn btn-primary" type="submit">ADD THIS ALBUM</button>
                 </div>
 
@@ -64,6 +70,8 @@
 
 
 
+
+    {% endblock %}
 
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

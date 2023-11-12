@@ -14,20 +14,24 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/home/{{user.user_id}}/creator_account">Creator account</a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/all_playlists/{{user.user_id}}">Playlists</a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="#">Profile</a>
                     </li>
-
+                    
                     <li class="nav-item">
                         <form action="/user_logout/{{user.user_id}}" method="post">
                             <a class="nav-link" type="button" href="/user_logout/{{user.user_id}}">Logout</a>
                         </form>
                     </li>
-
+                    
                 </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <form class="d-flex" method="post" action="/search_user/{{user.user_id}}" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searched">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
 

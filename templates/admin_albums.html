@@ -9,14 +9,14 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
         <style>
-            #songs{
+            #albums{
                 background-color: antiquewhite;
                 padding: 10px;
                 height: 400px;
                 overflow: auto;
                 
             }
-            .song{
+            .album{
                 
                 padding: 10px;
                 height: 300px;
@@ -24,7 +24,7 @@
                 
             }
 
-            .songs{
+            .albums{
                 background-color: aliceblue;
 
             }
@@ -53,13 +53,13 @@
               <li class="nav-item">
                 <a style="width: 100px; font-size:large;" type="button" class=" btn btn-outline-secondary m-2" href="/admin_albums/{{admin.admin_id}}">Albums</a>
 
-              </li>
+            </li>
               <li class="nav-item">
                 <a style="width: 100px; font-size:large;" class=" btn btn-outline-secondary m-2" href="/admin_logout/{{admin.admin_id}}">Logout</a>
             </li>
             </ul>
             <form class="d-flex" role="search" action="/search_admin/{{admin.admin_id}}" method="post">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searched" >
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searched">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
           </div>
@@ -70,69 +70,69 @@
 
 <!-- main container -->
 
-<div class="container-fluid songs  min-vh-100">
+<div class="container-fluid albums  min-vh-100">
     <header>
-        <p class="heading fs-1 fw-semibold text-center">All Tracks</p>
+        <p class="heading fs-1 fw-semibold text-center">All Albums</p>
     </header>
     <div class="container-fluid ">
-        {% if songs|length == 0 %}
-        <p>No Songs Availaible</p>
+        {% if albums|length == 0 %}
+        <p>No Album Availaible</p>
         
         {% else %}
-            <div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="songs" >
+            <div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="albums" >
                 <div class="container-fluid sticky-sm-top">
-                    <p class="text-capitalize fs-2 ">all songs</p>
+                    <p class="text-capitalize fs-2 ">all albums</p>
                 </div>
-                <div class="song container border border-2 rounded-3 border-dark m-auto overflow-auto">
-                    {% for song in songs %}
+                <div class="album container border border-2 rounded-3 border-dark m-auto overflow-auto">
+                    {% for album in albums %}
                         <div class="row m-3 p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
-                            <div class="col-6 text-capitalize fs-5 fst-italic">{{song.song_name}}</div>
-                            <div class="col"><a class="btn btn-info" href="/admin_song_lyrics/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;" >Lyrics</a></div>
-                            {% if song.song_flag == false %}
-                            <div class="col"><a class="btn btn-warning" href="/flag_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Flag</a></div>
+                            <div class="col-6 text-capitalize fs-5 fst-italic">{{album.album_name}}</div>
+                            <div class="col"><a class="btn btn-info" href="/admin_album_songs/{{admin.admin_id}}/{{album.album_id}}" role="button" style="width: 100px; font-size:large;" >Tracks</a></div>
+                            {% if album.album_flag == false %}
+                            <div class="col"><a class="btn btn-warning" href="/flag_album/{{admin.admin_id}}/{{album.album_id}}" role="button" style="width: 100px; font-size:large;">Flag</a></div>
 
                             {% else %}
-                            <div class="col"><a class="btn btn-warning" href="/flag_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Unflag</a></div>
+                            <div class="col"><a class="btn btn-warning" href="/flag_album/{{admin.admin_id}}/{{album.album_id}}" role="button" style="width: 100px; font-size:large;">Unflag</a></div>
 
                             {% endif %}
-                            <div class="col"><a class="btn btn-danger" href="/admin_delete_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Delete</a></div>
+                            <div class="col"><a class="btn btn-danger" href="/admin_delete_album/{{admin.admin_id}}/{{album.album_id}}" role="button" style="width: 100px; font-size:large;">Delete</a></div>
                         </div>
 
                     {% endfor %}
                 </div>
             </div>
 
-            <!-- songs containers based on different genres -->
+            <!-- albums containers based on different genres -->
             {% for genre in genres %}
-                <div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="songs" >
+                <div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="albums" >
                     <div class="container-fluid sticky-sm-top">
                         <p class="text-capitalize fs-2 ">{{genre}}</p>
                     </div>
-                    <div class="song container border border-2 rounded-3 border-dark m-auto overflow-auto">
-                        {% for song in songs %}
-                            {% if song.song_genre == genre %}
+                    <div class="album container border border-2 rounded-3 border-dark m-auto overflow-auto">
+                        {% for album in albums %}
+                            {% if album.album_genre == genre %}
                                 
-                                <div class="row m-3 p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
-                                    <div class="col-6 text-capitalize fs-5 fst-italic">{{song.song_name}}</div>
-                                    <div class="col"><a class="btn btn-info" href="/admin_song_lyrics/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;" >Lyrics</a></div>
+                            <div class="row m-3 p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+                                <div class="col-6 text-capitalize fs-5 fst-italic">{{album.album_name}}</div>
+                                <div class="col"><a class="btn btn-info" href="/admin_album_songs/{{admin.admin_id}}/{{album.album_id}}" role="button" style="width: 100px; font-size:large;" >Tracks</a></div>
+                                {% if album.album_flag == false %}
+                                <div class="col"><a class="btn btn-warning" href="/flag_album/{{admin.admin_id}}/{{album.album_id}}" role="button" style="width: 100px; font-size:large;">Flag</a></div>
+
+                                {% else %}
+                                <div class="col"><a class="btn btn-warning" href="/flag_album/{{admin.admin_id}}/{{album.album_id}}" role="button" style="width: 100px; font-size:large;">Unflag</a></div>
+
+                                {% endif %}
                                 
-                                    {% if song.song_flag == false %}
-                                    <div class="col"><a class="btn btn-warning" href="/flag_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Flag</a></div>
-        
-                                    {% else %}
-                                    <div class="col"><a class="btn btn-warning" href="/flag_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Unflag</a></div>
-        
-                                    {% endif %}                                
-                                    <div class="col"><a class="btn btn-danger" href="/admin_delete_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Delete</a></div>
-                                </div>
+                                <div class="col"><a class="btn btn-danger" href="/admin_delete_album/{{admin.admin_id}}/{{album.album_id}}" role="button" style="width: 100px; font-size:large;">Delete</a></div>
+                            </div>
                             {% endif %}
 
                         {% endfor %}
                     </div>
                 </div>
             {% endfor %}
-            <!-- songs containers based on different genres ends -->   
-
+            <!-- albums containers based on different genres ends -->   
+             
         {% endif %}
 
     </div>

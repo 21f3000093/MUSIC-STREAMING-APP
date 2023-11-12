@@ -15,7 +15,24 @@ db.init_app(app)
 app.app_context().push()
 
 
-########### Controllers ############
+
+##################### functions ##############################
+
+def calculate_avg_rating(s_id):
+    ratings = Rating.query.filter_by(song_id=s_id).all()
+
+    total_ratings = len(ratings)
+    if total_ratings > 0:
+        sum_ratings = sum([rating.rating for rating in ratings])
+        avg_rating = sum_ratings / total_ratings
+        return avg_rating
+    else:
+        return 0  # Return 0 if there is no rating
+
+
+########################### login, register Controllers ##########################################
+##################################################################################################
+##################################################################################################
 
 
 # Index page
@@ -102,27 +119,38 @@ def register_user():
 
 @app.route("/home/<int:u_id>", methods=["GET", "POST"])
 def home_page(u_id):
-    songs = Song.query.all()
-    albums = Album.query.all()
+    songs = Song.query.filter(Song.song_flag==False).all()
+    albums = Album.query.filter(Album.album_flag==False).all()
     playlists=Playlist.query.all()
     user = User.query.get(u_id)
+    song_genres = Song.query.with_entities(Song.song_genre).distinct().filter(Song.song_flag==False).all()
+    song_genre_list = [genre[0] for genre in song_genres]
+
 
     if user.isloggedin:
-        return render_template("home.html", songs=songs, albums=albums, user=user,playlists=playlists)
+        return render_template("home.html", songs=songs, albums=albums, user=user,playlists=playlists,song_genres=song_genre_list)
 
     else:
         return redirect("/")
     
 
 
+### play song
+@app.route("/play_song/<int:u_id>/<int:s_id>", methods=["GET", "POST"])
+def play_song(s_id, u_id):
+    song = Song.query.get(s_id)
+    user = User.query.get(u_id)
 
+    song.song_play_count += 1
+    db.session.commit()
+    return render_template("play_song.html",user=user,song=song)
 
 
 #### Add a playlist
 @app.route("/add_playlist/<int:u_id>", methods=["GET", "POST"])
 def add_playlist(u_id):
 
-    songs = Song.query.all()    
+    songs = Song.query.filter(Song.song_flag==False).all()    
     user = User.query.get(u_id)
 
     if request.method=="GET":
@@ -202,6 +230,9 @@ def rate_song(s_id, u_id):
         if rating:
             rating.rating=rate
             db.session.commit()
+            
+            song.song_avg_rating = calculate_avg_rating(song.song_id)
+            db.session.commit()
             return redirect("/home/{}".format(u_id))
         
         else:
@@ -214,13 +245,17 @@ def rate_song(s_id, u_id):
 
             db.session.add(r1)
             db.session.commit()
+
+            
+            song.song_avg_rating = calculate_avg_rating(song.song_id)
+            db.session.commit()
             return redirect("/home/{}".format(u_id))
 
 
 #######  All Songs (show more)
 @app.route("/all_songs/<int:u_id>")
 def all_songs(u_id):
-    songs = Song.query.all()    
+    songs = Song.query.filter(Song.song_flag==False).all()   
     user = User.query.get(u_id)
 
     return render_template("all_songs_page.html",user=user,songs=songs) 
@@ -228,7 +263,7 @@ def all_songs(u_id):
 #######  All Albums (show more)
 @app.route("/all_albums/<int:u_id>")
 def all_albums(u_id):
-    albums = Album.query.all()    
+    albums = Album.query.filter(Album.album_flag==False).all()   
     user = User.query.get(u_id)
 
     return render_template("all_albums_page.html",user=user,albums=albums) 
@@ -236,7 +271,7 @@ def all_albums(u_id):
 #######  All Playlists (show more)
 @app.route("/all_playlists/<int:u_id>")
 def all_playlists(u_id):
-    albums = Album.query.all()    
+    albums = Album.query.filter(Album.album_flag==False).all()   
     user = User.query.get(u_id)
     playlists=Playlist.query.all()
 
@@ -252,16 +287,44 @@ def all_playlists(u_id):
 def album_songs(a_id, u_id):
     # songs = Song.query.filter(album_id=a_id)
     user = User.query.get(u_id)
-    songs = Song.query.filter_by(album_id=a_id).all()
+    
+    songs = Song.query.filter(Song.song_flag==False , Song.album_id==a_id).all()
     album = Album.query.get(a_id)
     return render_template(
         "album_songs.html", songs=songs, album=album, user=user
     )
 
 
+### search songs and albums
 
+@app.context_processor
+def search_processor():
+    return {'searched': request.form.get("searched")}
 
+@app.route("/search_user/<int:u_id>", methods=["GET", "POST"])
+def search_user(u_id):
+    user = User.query.get(u_id)
+    searched = request.form.get("searched")
+    songs = []
+    albums = []
 
+    if searched:
+        
+        songs = Song.query.filter(
+            (Song.song_name.like('%' + searched + '%')) |
+            (Song.song_artist.like('%' + searched + '%')) |
+            (Song.song_genre.like('%' + searched + '%')) , Song.song_flag==False
+        ).all()
+
+        albums = Album.query.filter(
+            (Album.album_name.like('%' + searched + '%')) |
+            (Album.album_artist.like('%' + searched + '%')) |
+            (Album.album_genre.like('%' + searched + '%')) , Album.album_flag==False
+        ).all()
+
+        
+
+    return render_template("search_user.html", songs=songs,albums=albums, user=user)
 
 
 
@@ -276,18 +339,14 @@ def creator_account(u_id):
     albums = Album.query.filter_by(creator_id=u_id).all()
     # s_count=len(songs)
     
-    total_rating=0
-    count=0
-    for song in songs:
-        rating=Rating.query.filter_by(song_id=song.song_id).all()
-        for r in rating:
-            total_rating += r.rating
-            count +=1
+    avg_rating=0
+    sum_ratings=0
+    if songs:
+        for song in songs :
+            sum_ratings += song.song_avg_rating
 
-    if count==0 :
-        avg_rating=0
-    else:
-        avg_rating=(total_rating/count)
+
+        avg_rating=(sum_ratings/len(songs))
 
 
 
@@ -306,7 +365,6 @@ def creator_account(u_id):
 
 ####### all songs of an album for creator account
 
-
 @app.route("/creator_album_songs/<int:u_id>/<int:a_id>", methods=["GET", "POST"])
 def creator_album_songs(a_id, u_id):
     # songs = Song.query.filter(album_id=a_id)
@@ -314,8 +372,7 @@ def creator_album_songs(a_id, u_id):
     songs = Song.query.filter_by(album_id=a_id).all()
     album = Album.query.get(a_id)
     return render_template(
-        "creator_album_songs.html", songs=songs, album=album, user=user
-    )
+        "creator_album_songs.html", songs=songs, album=album, user=user)
 
 
 ##### add songs to an album
@@ -545,7 +602,7 @@ def admin_login():
                 return render_template("error.html", msg=msg)
 
         else:
-            msg = "AdminName not found! Register as a new User."
+            msg = "AdminName not found! "
             return render_template("error.html", msg=msg)
 
 
@@ -578,8 +635,71 @@ def admin_logout(a_id):
     db.session.commit()
 
     return redirect("/")
+
+### all creators page
+@app.route("/all_creators/<int:a_id>")
+def all_creators(a_id):
+    admin = Admin.query.get(a_id)
+    creators=User.query.filter_by(user_role_id=1).all()
+
+    return render_template("admin_all_creators.html",creators=creators, admin=admin)
+
+### flag a creator 
+@app.route("/flag_creator/<int:a_id>/<int:c_id>")
+def flag_creator(a_id,c_id):
+    user = User.query.get(c_id)
+    songs = Song.query.filter(Song.creator_id==c_id).all()
+    albums = Album.query.filter(Album.creator_id==c_id).all()
     
 
+    if user.user_flag == False:
+        user.user_flag=True
+        for song in songs:
+            song.song_flag=True
+
+        for album in albums:
+            album.album_flag=True
+
+        db.session.commit()
+        return redirect("/all_creators/{}".format(a_id))
+    
+    else:
+        user.user_flag=False
+        for song in songs:
+            song.song_flag=False
+
+        for album in albums:
+            album.album_flag=False
+
+        db.session.commit()
+        return redirect("/all_creators/{}".format(a_id))
+
+    
+ ##### creator uploads summary   
+@app.route("/creator_uploads/<int:a_id>/<int:c_id>")
+def creator_uploads(a_id,c_id):
+    user = User.query.get(c_id)
+    admin = Admin.query.get(a_id)
+    songs = Song.query.filter(Song.creator_id==c_id).all()
+    albums = Album.query.filter(Album.creator_id==c_id).all()
+
+    avg_rating=0
+    sum_ratings=0
+    if songs:
+        for song in songs :
+            sum_ratings += song.song_avg_rating
+
+
+        avg_rating=(sum_ratings/len(songs))
+
+
+    return render_template("admin_creator_uploads.html",songs =songs,albums=albums , admin=admin,creator=user ,avg_rating=avg_rating)
+
+
+
+
+
+# all songs admin account 
 @app.route("/admin_songs/<int:a_id>", methods=["GET", "POST"])
 def admin_songs(a_id):
     admin = Admin.query.get(a_id)
@@ -592,7 +712,7 @@ def admin_songs(a_id):
     else:
         return redirect("/")
     
-
+# flag a song
 @app.route("/flag_song/<int:a_id>/<int:s_id>")
 def flag_song(s_id,a_id):
     admin = Admin.query.get(a_id)
@@ -614,9 +734,109 @@ def admin_delete_song(s_id, a_id):
         return redirect("/admin_songs/{}".format(a_id))
     
 
+##### admin song lyrics page
+@app.route("/admin_song_lyrics/<int:a_id>/<int:s_id>", methods=["GET", "POST"])
+def admin_song_lyrics(s_id, a_id):
+    song = Song.query.get(s_id)
+    admin = Admin.query.get(a_id)
+    
 
 
 
+    return render_template("admin_song_lyrics.html", song=song, admin=admin)
+
+
+## all albums (admin)
+@app.route("/admin_albums/<int:a_id>", methods=["GET", "POST"])
+def admin_albums(a_id):
+    admin = Admin.query.get(a_id)
+    songs = Song.query.all()
+    albums=Album.query.all()
+    genres = Album.query.with_entities(Album.album_genre).distinct().all()
+    genre_list = [genre[0] for genre in genres]
+    if admin.isloggedin:
+        return render_template("admin_albums.html", songs=songs, admin=admin,genres=genre_list,albums=albums)
+
+    else:
+        return redirect("/")
+    
+
+
+ ####### all songs of an album for admin account
+
+@app.route("/admin_album_songs/<int:a_id>/<int:alb_id>", methods=["GET", "POST"])
+def admin_album_songs(a_id, alb_id):
+    admin = Admin.query.get(a_id)
+    songs = Song.query.filter_by(album_id=alb_id).all()
+    album = Album.query.get(alb_id)
+    return render_template(
+        "admin_album_songs.html", songs=songs, album=album, admin=admin)
+
+
+
+### flag a album
+@app.route("/flag_album/<int:a_id>/<int:alb_id>")
+def flag_album(a_id,alb_id):
+    admin = Admin.query.get(a_id)
+    album = Album.query.get(alb_id)
+    songs = Song.query.filter_by(album_id=alb_id).all()
+    # album.album_flag = not album.album_flag  # will add after the update in album model
+    # db.session.commit()
+    if album.album_flag == False:
+        album.album_flag = True
+        for song in songs:
+            song.song_flag = True
+
+        db.session.commit()
+        return redirect("/admin_albums/{}".format(alb_id))
+    
+    else:
+        album.album_flag = False
+        for song in songs:
+            song.song_flag = False
+
+        db.session.commit()
+        return redirect("/admin_albums/{}".format(alb_id))
+    
+
+
+
+
+
+
+
+
+# delete a album (for admin )
+@app.route("/admin_delete_album/<int:a_id>/<int:alb_id>", methods=["GET", "POST"])
+def admin_delete_album(a_id,alb_id):
+    album = Album.query.get(alb_id)
+    
+    if request.method == "GET":
+        db.session.delete(album)
+        db.session.commit()
+        return redirect("/admin_albums/{}".format(a_id))
+    
+
+# searched page for admin 
+@app.route("/search_admin/<int:a_id>", methods=["GET", "POST"])
+def search_admin(a_id):
+    admin = Admin.query.get(a_id)
+    searched = request.form.get("searched")
+    songs = []
+    
+
+    if searched:
+        
+        songs = Song.query.filter(
+            (Song.song_name.like('%' + searched + '%')) |
+            (Song.song_artist.like('%' + searched + '%')) |
+            (Song.song_genre.like('%' + searched + '%'))
+        ).all()
+
+  
+    return render_template("search_admin.html", songs=songs,admin=admin)
+
+   
 
 
 

@@ -11,33 +11,35 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <style>
-        .container-fluid{
+        .container-fluid {
             text-transform: capitalize;
-            
+
         }
+
         .songs {
             height: 350px;
             width: auto;
-            overflow:auto;
-          
+            overflow: auto;
+
         }
 
         .albums {
             height: 350px;
             width: auto;
-            overflow:auto;
-            
-           
+            overflow: auto;
+
+
 
 
         }
+
         .playlists {
             height: 350px;
             width: auto;
-            overflow:auto;
+            overflow: auto;
             margin-bottom: 50px;
-            
-           
+
+
 
 
         }
@@ -51,13 +53,14 @@
             background-color: aliceblue;
 
         }
+
         #album {
             width: 300px;
             height: 150px;
             margin: 10px;
             padding: auto;
             text-align: center;
-            background-color:aliceblue;
+            background-color: aliceblue;
 
         }
     </style>
@@ -72,36 +75,45 @@
     {% block content %}
     <div class="container-fluid">
 
+        {% if songs|length == 0 %}
+
+        <h2 class="text-center fs-3">No Songs Available</h2>
+
+        {% else %}
 
         <!-- songs container Start-->
         <div class="container-fluid ">
 
-            
-            <h1><label for="songs">Available Songs</label></h1>
-            
-            
-            
-            {% if songs|length == 0 %}
-            <h2 class="text-center">No Songs Available</h2>
 
-                {% else %}
-                <div style="text-align:right ; padding:5px;">
-                    <a class="btn btn-success" href="/all_songs/{{user.user_id}}" role="button">Show More</a>
-                </div>
-                
-                <div class=" songs container text-center " id="songs">
+            <p class="fs-2 fw-semibold">Songs</p>
+
+
+
+
+            <div style="text-align:right ; padding:5px;">
+                <a class="btn btn-success" href="/all_songs/{{user.user_id}}" role="button">Show More</a>
+            </div>
+
+            <div class=" songs container text-center " id="songs">
 
                 <div class="row row-cols-4">
                     {% for song in songs %}
 
-                    <div id="song" class="col  border border-primary-subtle" style="text-transform: capitalize; ">
+                    <div id="song" class="col text-center border border-primary-subtle shadow"
+                        style="text-transform: capitalize; ">
                         <ul type="none">
                             <li>
-                                <h4>{{song.song_name}}</h4>
+                                <p class="fs-4 fw-semibold"><a href="/play_song/{{user.user_id}}/{{song.song_id}}"
+                                        style="text-decoration: none; color:dimgrey;"
+                                        onmouseover="this.style.color='black'"
+                                        onmouseout="this.style.color='dimgrey'">{{song.song_name}}</a></p>
                             </li>
-                            <li>by <b><i>{{song.song_artist}}</i></b></li>
+                            <li>
+                                <p class="fs-6 fw-semibold fst-italic">{{song.song_artist}}</p>
+                            </li>
                             <li style="margin: 10px;"><a class="btn btn btn-info"
-                                    href="/user_song_lyrics/{{user.user_id}}/{{song.song_id}}" type="button">Lyrics</a></li>
+                                    href="/user_song_lyrics/{{user.user_id}}/{{song.song_id}}" type="button">Lyrics</a>
+                            </li>
                         </ul>
 
                     </div>
@@ -109,7 +121,7 @@
                     {% endfor %}
                 </div>
 
-                
+
 
                 <!-- <a class="btn btn-primary"  href="/add_song" type="button">+Add Song</a> -->
 
@@ -120,9 +132,9 @@
         <!-- ALBUMS container Start -->
 
         <div class="container-fluid">
-            <h1><label for="albums">Available Albums</label></h1>
+            <label for="albums" class="fs-2 fw-semibold">Albums</label>
 
-            
+
 
             <div id="albums" class="container-fluid" style="text-transform: capitalize">
 
@@ -141,16 +153,20 @@
                     <div class="row row-cols-4">
                         {% for album in albums %}
 
-                        <div id="album" class="col  border border-primary-subtle" >
+                        <div id="album" class="col  border border-primary-subtle shadow">
 
                             <ul type="none">
                                 <li>
-                                    <h4>{{album.album_name}}</h4>
+                                    <p class="fs-4 fw-semibold">{{album.album_name}}</p>
                                 </li>
-                                
-                                <li>by <b><i>{{album.album_artist}}</i></b></li>
 
-                                <li style="margin: 10px;"> <a class="btn btn-info" href="/album_songs/{{user.user_id}}/{{album.album_id}}" role="button">Show Tracks</a></li>
+                                <li>
+                                    <p class="fs-6 fw-semibold fst-italic">{{album.album_artist}}</p>
+                                </li>
+
+                                <li style="margin: 10px;"> <a class="btn btn-info"
+                                        href="/album_songs/{{user.user_id}}/{{album.album_id}}" role="button">Show
+                                        Tracks</a></li>
                             </ul>
                         </div>
 
@@ -170,40 +186,42 @@
 
         <!-- playlist container start -->
         <div class="container-fluid">
-            <h1><label for="playlists">your playlists</label></h1>
-           
+            <label for="playlists" class="fs-2 fw-semibold">your playlists</label>
+
 
             <div id="playlists" class="container-fluid" style="text-transform: capitalize">
 
 
                 {% if playlists|length == 0 %}
-                
+
                 <div style="text-align:center ; padding:20px;">
                     <h2>No playlist Available</h2>
-                    <a  class="btn btn-primary"  href="/add_playlist/{{user.user_id}}">add a playlist</a>
+                    <a class="btn btn-primary" href="/add_playlist/{{user.user_id}}">add a playlist</a>
                 </div>
-                
+
 
                 {% else %}
                 <div style="text-align:right ; padding:5px;">
                     <a class="btn btn-success" href="/all_playlists/{{user.user_id}}" role="button">Show More</a>
                 </div>
- 
+
                 <div class="playlists container text-center">
 
 
                     <div class="row row-cols-4">
                         {% for playlist in playlists %}
 
-                        <div id="album" class="col  border border-primary-subtle" >
+                        <div id="album" class="col  border border-primary-subtle shadow">
 
                             <ul type="none">
                                 <li style="margin: 10px;">
-                                    <h4>{{playlist.playlist_name}}</h4>
+                                    <p class="fs-4 fw-semibold">{{playlist.playlist_name}}</p>
                                 </li>
-                                
 
-                                <li style="margin: 50px;"> <a class="btn btn-info" href="/playlist_songs/{{user.user_id}}/{{playlist.playlist_id}}" role="button">Show Tracks</a></li>
+
+                                <li style="margin: 50px;"> <a class="btn btn-info"
+                                        href="/playlist_songs/{{user.user_id}}/{{playlist.playlist_id}}"
+                                        role="button">Show Tracks</a></li>
                             </ul>
                         </div>
 
@@ -220,18 +238,72 @@
 
         </div>
 
-
-
-
-
-
-
         <!-- playlist container ends here -->
 
 
+        <!-- songs container for different gener songs Start-->
+
+        {% for genre in song_genres %}
+
+        <div class="container-fluid ">
+
+
+            <p class="fs-2 fw-semibold">genre: {{genre}}</p>
+
+
+
+
+           
+            <!-- <div style="text-align:right ; padding:5px;">
+                    <a class="btn btn-success" href="/all_songs/{{user.user_id}}" role="button">Show More</a>
+                </div> -->
+
+            <div class=" songs container text-center " id="songs">
+
+                <div class="row row-cols-4">
+                    {% for song in songs %}
+
+                    {% if song.song_genre == genre %}
+                    <div id="song" class="col text-center border border-primary-subtle shadow" 
+                        style="text-transform: capitalize; ">
+                        <ul type="none">
+                            <li>
+                                <p class="fs-4 fw-semibold"><a href="/play_song/{{user.user_id}}/{{song.song_id}}"
+                                        style="text-decoration: none; color:dimgrey;"
+                                        onmouseover="this.style.color='black'"
+                                        onmouseout="this.style.color='dimgrey'">{{song.song_name}}</a></p>
+                            </li>
+                            <li>
+                                <p class="fs-6 fw-semibold fst-italic">{{song.song_artist}}</p>
+                            </li>
+                            <li style="margin: 10px;"><a class="btn btn btn-info"
+                                    href="/user_song_lyrics/{{user.user_id}}/{{song.song_id}}" type="button">Lyrics</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                    {% endif %}
+
+
+
+                    {% endfor %}
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+        {% endfor %}
+
+
+        <!-- songs container for different gener songs Start-->
+
 
         {% endif %}
-       
+
     </div>
 
 

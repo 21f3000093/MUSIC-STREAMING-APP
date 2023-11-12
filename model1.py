@@ -25,22 +25,19 @@ class Admin(db.Model):
     admin_name = db.Column(db.String(80), nullable=False, unique=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    # total_users = db.Column(db.Integer)
-    # total_creators = db.Column(db.Integer)
-    # total_albums = db.Column(db.Integer)
-    # total_songs = db.Column(db.Integer)
+    
     isloggedin = db.Column(db.Boolean(),default=False,nullable=False)
 
-# SOng model
 
 
+### SOng model
 class Song(db.Model):
     song_id = db.Column(db.Integer, primary_key=True)
     song_name = db.Column(db.String(100), nullable=False)
     song_artist = db.Column(db.String(100))
     song_language = db.Column(db.String(30))
     song_genre = db.Column(db.String(50))
-    song_lyrics = db.Column(db.String(1000))
+    song_lyrics = db.Column(db.Text())   # variable string size
     song_duration = db.Column(db.Integer)  # in seconds
     release_date = db.Column(db.String(20))
     creator_id = db.Column(db.Integer, db.ForeignKey("user.user_id"), nullable=False)
@@ -49,6 +46,7 @@ class Song(db.Model):
     song_thumbnail = db.Column(db.String(255),default=None)
     song_play_count = db.Column(db.Integer, default=0)
     song_flag = db.Column(db.Boolean,default=False)
+    song_avg_rating = db.Column(db.Float(), default=0) # included later during devlopement
 
     creator = db.relationship("User", backref="songs")
 
@@ -63,9 +61,9 @@ class Album(db.Model):
     album_genre = db.Column(db.String(50))
     album_artist = db.Column(db.String(100))
     creator_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
-    album_play_count = db.Column(db.Integer, default=0)
+    # album_play_count = db.Column(db.Integer, default=0) # remove this
     album_thumbnail = db.Column(db.String(255))
-
+    album_flag = db.Column(db.Boolean,default=False)    #need to add this
     songs = db.relationship("Song", backref="albums",cascade="all, delete")
     creator = db.relationship("User", backref="albums")
 
@@ -98,7 +96,7 @@ class Rating(db.Model):
     song_id = db.Column(db.Integer, db.ForeignKey("song.song_id"))
     rating = db.Column(db.Integer,default=None)
     user = db.relationship("User", backref="ratings")
-    song = db.relationship("Song", backref="ratings")
+    song = db.relationship("Song", backref="ratings",cascade="all, delete" ) # add cascade all delete
 
 
 

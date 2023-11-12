@@ -63,7 +63,8 @@
                     <div id="song" class="col  border border-primary-subtle" style="text-transform: capitalize; ">
                         <ul type="none">
                             <li>
-                                <h4>{{song.song_name}}</h4>
+                                <p class="fs-3" ><a href="/play_song/{{user.user_id}}/{{song.song_id}}" style="text-decoration: none; color:dimgrey;" onmouseover="this.style.color='black'" onmouseout="this.style.color='dimgrey'" >{{song.song_name}}</a></p>
+
                             </li>
                             <li>by <b><i>{{song.song_artist}}</i></b></li>
                             <li style="margin: 10px;"><a class="btn btn btn-info"

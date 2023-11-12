@@ -12,16 +12,17 @@
             #songs{
                 background-color: antiquewhite;
                 padding: 10px;
-                height: 400px;
+                height: auto;
                 overflow: auto;
+                min-height: 400px;
                 
             }
             .song{
                 
                 padding: 10px;
-                height: 300px;
+                height: auto;
                 overflow: auto;
-                
+                min-height: 300px;
             }
 
             .songs{
@@ -46,6 +47,7 @@
               <li class="nav-item">
                 <a style="width: auto; margin:auto; font-size:large;" type="button" class="btn btn-outline-secondary m-2" href="/admin_home/{{admin.admin_id}}">Dashboard</a>
               </li>
+
               <li class="nav-item">
                 <a style="width: 100px; font-size:large;" type="button" class="btn btn-outline-secondary m-2" href="/admin_songs/{{admin.admin_id}}">Tracks</a>
 
@@ -72,11 +74,11 @@
 
 <div class="container-fluid songs  min-vh-100">
     <header>
-        <p class="heading fs-1 fw-semibold text-center">All Tracks</p>
+        <p class="heading fs-3 fw-semibold text-center">Tracks for your search: '{{searched}}'</p>
     </header>
     <div class="container-fluid ">
         {% if songs|length == 0 %}
-        <p>No Songs Availaible</p>
+        <p>No Songs Found</p>
         
         {% else %}
             <div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="songs" >
@@ -102,36 +104,7 @@
                 </div>
             </div>
 
-            <!-- songs containers based on different genres -->
-            {% for genre in genres %}
-                <div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="songs" >
-                    <div class="container-fluid sticky-sm-top">
-                        <p class="text-capitalize fs-2 ">{{genre}}</p>
-                    </div>
-                    <div class="song container border border-2 rounded-3 border-dark m-auto overflow-auto">
-                        {% for song in songs %}
-                            {% if song.song_genre == genre %}
-                                
-                                <div class="row m-3 p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
-                                    <div class="col-6 text-capitalize fs-5 fst-italic">{{song.song_name}}</div>
-                                    <div class="col"><a class="btn btn-info" href="/admin_song_lyrics/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;" >Lyrics</a></div>
-                                
-                                    {% if song.song_flag == false %}
-                                    <div class="col"><a class="btn btn-warning" href="/flag_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Flag</a></div>
-        
-                                    {% else %}
-                                    <div class="col"><a class="btn btn-warning" href="/flag_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Unflag</a></div>
-        
-                                    {% endif %}                                
-                                    <div class="col"><a class="btn btn-danger" href="/admin_delete_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Delete</a></div>
-                                </div>
-                            {% endif %}
-
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endfor %}
-            <!-- songs containers based on different genres ends -->   
+   
 
         {% endif %}
 
