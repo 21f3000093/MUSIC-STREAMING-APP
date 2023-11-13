@@ -185,22 +185,22 @@
         <!-- albums ends here   -->
 
         <!-- playlist container start -->
+        
+        
+        {% if playlists|length == 0 %}
+        
+        <!-- <div style="text-align:center ; padding:20px;">
+            <h2>No playlist Available</h2>
+            <a class="btn btn-primary" href="/add_playlist/{{user.user_id}}">add a playlist</a>
+        </div> -->
+        
+        
+        {% else %}
         <div class="container-fluid">
             <label for="playlists" class="fs-2 fw-semibold">your playlists</label>
 
 
             <div id="playlists" class="container-fluid" style="text-transform: capitalize">
-
-
-                {% if playlists|length == 0 %}
-
-                <div style="text-align:center ; padding:20px;">
-                    <h2>No playlist Available</h2>
-                    <a class="btn btn-primary" href="/add_playlist/{{user.user_id}}">add a playlist</a>
-                </div>
-
-
-                {% else %}
                 <div style="text-align:right ; padding:5px;">
                     <a class="btn btn-success" href="/all_playlists/{{user.user_id}}" role="button">Show More</a>
                 </div>

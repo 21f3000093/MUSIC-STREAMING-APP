@@ -18,11 +18,11 @@
 
     {% block content %}
 
-    <div class="container-fluid" id="update_album">
+    <div class="container-fluid m-auto " id="update_album">
 
-        <h2>Update Your Album</h2>
+        <h2 class="text-center">Update Your Album</h2>
 
-        <div class="d-grid gap-3">
+        <div class="d-grid gap-3 w-50 m-auto">
             <form action="/edit_album/{{user.user_id}}/{{album.album_id}}" method="post">
 
 
@@ -56,8 +56,8 @@
                         name="a_thumbnail">
                 </div>
 
-                <div style="padding: 10px;">
-                    <button class="btn btn-primary" type="submit">UPDATE ALBUM</button>
+                <div style="padding: 10px;" class="text-center">
+                    <button class="btn btn-primary " type="submit">UPDATE ALBUM</button>
                 </div>
 
 

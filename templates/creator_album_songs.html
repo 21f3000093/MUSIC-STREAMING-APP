@@ -24,7 +24,7 @@
         text-align: center;
         text-transform: capitalize;
         overflow: auto;
-        
+        min-height: 80%;
         
         margin-bottom: 20px;
         padding: 10px;
@@ -40,6 +40,7 @@
         background-color: aliceblue;
         margin: auto;
         overflow: auto;
+        min-height: 80%;
 
     }
 
@@ -76,9 +77,10 @@
   {% block content %}
 
 
-          <!-- songs container Start-->
+          <div class="container-fluid vh-100">
+            <!-- songs container Start-->
 
-          <div class="songs ">
+          <div class="songs container-fluid h-50">
 
             {% if songs|length == 0 %}
             <div style="text-align: center;">
@@ -143,6 +145,7 @@
 
 
         <!-- songs container ends here-->
+          </div>
 
 
   {% endblock %}

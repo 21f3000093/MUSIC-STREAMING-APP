@@ -19,7 +19,7 @@
             height: 600px;
             background-color:antiquewhite;
             margin: auto;
-            margin-bottom: 100px;
+           
             overflow:auto;
             text-align: center;
             text-transform: capitalize;
@@ -79,11 +79,21 @@
 
             <ul type="none">
 
-                <li id="list-item1"><h2>{{song.song_name}}</h2></li>
-                <!-- <li id="rate"><a class="btn btn-warning" href="/rate_song/{{user.user_id}}/{{song.song_id}}" role="button">Rate</a></li> -->
-                <li id="list-item2"><b>{{song.song_artist}}</b> | {{song.release_date[0:4]}} </li>
+                <div class="d-flex flex-row   position-relative">
+                    <div class="p-2 "><li id="list-item1"><h2>{{song.song_name}}</h2></li></div>
+                    <div class="p-2 me-5  w-25 h-75 rounded position-absolute top-50 end-0 translate-middle-y "><li class="text-capitalize fs-5 "><p>rating: {{song.song_avg_rating}}</p></li></div>
+                    
+                </div>
                 
-                <li id="list-item4">{{song.song_play_count}} Plays</li>
+                <div class="d-flex flex-row  position-relative">
+                    <div class="p-2 "><li id="list-item2"><b>{{song.song_artist}}</b> | {{song.release_date[0:4]}} </li></div>
+                    <div class="p-2 me-5  w-25 h-75 rounded position-absolute top-50 end-0 translate-middle-y "><li class="text-capitalize fs-6 fst-italic" id="list-item4">{{song.song_play_count}} Plays</li></div>
+                    
+                </div>
+                
+                
+                
+                
                 <div class="lyrics">
                     <li id="list-item5">{{song.song_lyrics}}</li>
                 </div>
@@ -92,7 +102,7 @@
            
 
         </div>
-        <!-- <a class="btn btn-primary" href="/add_song/{{user.user_id}}" type="button">+Add Song</a> -->
+        
     </div>
 
     {% endblock %}

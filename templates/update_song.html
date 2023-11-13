@@ -13,68 +13,72 @@
     {% extends 'creator_navbar.html' %}
 
     {% block content %}
-
-    <form action="/edit_song/{{user.user_id}}/{{song.song_id}}" method="post">
-
-
-        <div class="p-2 bg-light border">
-            <label for="sn">Title</label>
-            <input type="text" id="sn" value="{{song.song_name}}" name="s_name">
-        </div>
-
-        <div class="p-2 bg-light border">
-            <label for="sa">Artist</label>
-            <input type="text" id="sa" value="{{song.song_artist}}" name="s_artist">
-        </div>
+<div class="container-fluid vh-100 ">
+    <div class="container-fluid w-50 m-auto mt-2">
+        <p class="fs-2 text-center">Update Song</p>
+        <form action="/edit_song/{{user.user_id}}/{{song.song_id}}" method="post">
 
 
-        <div class="p-2 bg-light border">
-            <label for="sl">Language</label>
-            <input type="text" id="sl" value="{{song.song_language}}" name="s_language">
-        </div>
+            <div class="p-2 bg-light border">
+                <label for="sn">Title</label>
+                <input type="text" id="sn" value="{{song.song_name}}" name="s_name">
+            </div>
 
-        <div class="p-2 bg-light border">
-            <label for="sg">Genre</label>
-            <input type="text" id="sg" value="{{song.song_genre}}" name="s_genre">
-        </div>
-
-        <div class="p-2 bg-light border">
-            <label for="sly">LYRICS</label>
-            <textarea id="sly" cols="100" rows="10" placeholder="{song.song_lyrics}}" name="s_lyrics">{{song.song_lyrics}}</textarea>
-
-        </div>
-
-        <div class="p-2 bg-light border">
-            <label for="sd">Duration</label>
-            <input type="number" id="sd" name="s_duration" value="{{song.song_duration}}"
-                placeholder="duration in seconds">
-        </div>
-
-        <div class="p-2 bg-light border">
-            <label for="srd">RELEASE DATE</label>
-            <input type="date" id="srd" value="{{song.release_date}}" name="s_release_date">
-        </div>
+            <div class="p-2 bg-light border">
+                <label for="sa">Artist</label>
+                <input type="text" id="sa" value="{{song.song_artist}}" name="s_artist">
+            </div>
 
 
-        <div class="p-2 bg-light border">
-            <label for="sp">Song Path</label>
-            <input type="text" id="sp" value="{{song.song_path}}" name="s_path">
-        </div>
+            <div class="p-2 bg-light border">
+                <label for="sl">Language</label>
+                <input type="text" id="sl" value="{{song.song_language}}" name="s_language">
+            </div>
 
-        <div class="p-2 bg-light border">
-            <label for="st">Thumbnail Path</label>
-            <input type="text" id="st" value="{{song.song_thumbnail}}" name="s_thumbnail">
-        </div>
+            <div class="p-2 bg-light border">
+                <label for="sg">Genre</label>
+                <input type="text" id="sg" value="{{song.song_genre}}" name="s_genre">
+            </div>
 
-        <div class="p-2 bg-light border">
-            <button class="btn btn-primary" type="submit">UPDATE SONG</button>
-        </div>
+            <div class="p-2 bg-light border overflow-x-auto">
+                <p><label for="sly">LYRICS</label></p>
+                <textarea id="sly" cols="50" rows="5" placeholder="{song.song_lyrics}}" name="s_lyrics">{{song.song_lyrics}}</textarea>
+
+            </div>
+
+            <div class="p-2 bg-light border">
+                <label for="sd">Duration</label>
+                <input type="number" id="sd" name="s_duration" value="{{song.song_duration}}"
+                    placeholder="duration in seconds">
+            </div>
+
+            <div class="p-2 bg-light border">
+                <label for="srd">RELEASE DATE</label>
+                <input type="date" id="srd" value="{{song.release_date}}" name="s_release_date">
+            </div>
+
+
+            <div class="p-2 bg-light border">
+                <label for="sp">Song Path</label>
+                <input type="text" id="sp" value="{{song.song_path}}" name="s_path">
+            </div>
+
+            <div class="p-2 bg-light border">
+                <label for="st">Thumbnail Path</label>
+                <input type="text" id="st" value="{{song.song_thumbnail}}" name="s_thumbnail">
+            </div>
+
+            <div class="p-2 bg-light border text-center">
+                <button class="btn btn-primary" type="submit">UPDATE SONG</button>
+            </div>
 
 
 
 
 
-    </form>
+        </form>
+    </div>
+</div>
 
 
 
