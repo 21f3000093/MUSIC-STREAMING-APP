@@ -123,12 +123,14 @@ def home_page(u_id):
     albums = Album.query.filter(Album.album_flag==False).all()
     playlists=Playlist.query.all()
     user = User.query.get(u_id)
+
     song_genres = Song.query.with_entities(Song.song_genre).distinct().filter(Song.song_flag==False).all()
     song_genre_list = [genre[0] for genre in song_genres]
 
+    top_songs = Song.query.order_by(Song.song_play_count.desc()).limit(20).all()
 
     if user.isloggedin:
-        return render_template("home.html", songs=songs, albums=albums, user=user,playlists=playlists,song_genres=song_genre_list)
+        return render_template("home.html", songs=songs, albums=albums, user=user,playlists=playlists,song_genres=song_genre_list,top_songs=top_songs)
 
     else:
         return redirect("/")
@@ -617,11 +619,14 @@ def admin_home_page(a_id):
     admin = Admin.query.get(a_id)
     users=User.query.all()
     creators=User.query.filter_by(user_role_id=1).all()
+
     genres = Song.query.with_entities(Song.song_genre).distinct().all()
     genre_list = [genre[0] for genre in genres]
 
+    top_songs = Song.query.order_by(Song.song_play_count.desc()).limit(20).all()
+
     if admin.isloggedin:
-        return render_template("admin_home.html", songs=songs, albums=albums, admin=admin,playlists=playlists,users=users,creators=creators,genres=genre_list)
+        return render_template("admin_home.html", songs=songs, albums=albums, admin=admin,playlists=playlists,users=users,creators=creators,genres=genre_list, top_songs=top_songs)
 
     else:
         return redirect("/")
@@ -706,8 +711,11 @@ def admin_songs(a_id):
     songs = Song.query.all()
     genres = Song.query.with_entities(Song.song_genre).distinct().all()
     genre_list = [genre[0] for genre in genres]
+
+    top_songs = Song.query.order_by(Song.song_play_count.desc()).limit(20).all()
+
     if admin.isloggedin:
-        return render_template("admin_songs.html", songs=songs, admin=admin,genres=genre_list)
+        return render_template("admin_songs.html", songs=songs, admin=admin,genres=genre_list,top_songs=top_songs)
 
     else:
         return redirect("/")

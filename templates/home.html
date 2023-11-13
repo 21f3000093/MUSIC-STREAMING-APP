@@ -241,6 +241,49 @@
         <!-- playlist container ends here -->
 
 
+        <!-- Top 20 songs  container Start-->
+        <div class="container-fluid ">
+
+
+            <p class="fs-2 fw-semibold">Top 20 Songs</p>
+
+
+            <div class=" songs container text-center " id="songs">
+
+                <div class="row row-cols-4">
+                    {% for song in top_songs %}
+
+                    <div id="song" class="col text-center border border-primary-subtle shadow"
+                        style="text-transform: capitalize; ">
+                        <ul type="none">
+                            <li>
+                                <p class="fs-4 fw-semibold"><a href="/play_song/{{user.user_id}}/{{song.song_id}}"
+                                        style="text-decoration: none; color:dimgrey;"
+                                        onmouseover="this.style.color='black'"
+                                        onmouseout="this.style.color='dimgrey'">{{song.song_name}}</a></p>
+                            </li>
+                            <li>
+                                <p class="fs-6 fw-semibold fst-italic">{{song.song_artist}}</p>
+                            </li>
+                            <li style="margin: 10px;"><a class="btn btn btn-info"
+                                    href="/user_song_lyrics/{{user.user_id}}/{{song.song_id}}" type="button">Lyrics</a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    {% endfor %}
+                </div>
+
+
+
+                <!-- <a class="btn btn-primary"  href="/add_song" type="button">+Add Song</a> -->
+
+            </div>
+        </div>
+        <!-- top Songs ends here -->
+
+
         <!-- songs container for different gener songs Start-->
 
         {% for genre in song_genres %}

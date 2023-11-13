@@ -79,6 +79,7 @@
         <p>No Songs Availaible</p>
         
         {% else %}
+            <!-- all songs -->
             <div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="songs" >
                 <div class="container-fluid sticky-sm-top">
                     <p class="text-capitalize fs-2 ">all songs</p>
@@ -101,6 +102,34 @@
                     {% endfor %}
                 </div>
             </div>
+            <!-- all songs ends here -->
+            
+            <!-- top 20 songs -->
+            <div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="songs" >
+                <div class="container-fluid sticky-sm-top">
+                    <p class="text-capitalize fs-2 ">top 20 songs</p>
+                </div>
+                <div class="song container border border-2 rounded-3 border-dark m-auto overflow-auto">
+                    {% for song in top_songs %}
+                        <div class="row m-3 p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+                            <div class="col-6 text-capitalize fs-5 fst-italic">{{song.song_name}}</div>
+                            <div class="col"><a class="btn btn-info" href="/admin_song_lyrics/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;" >Lyrics</a></div>
+                            {% if song.song_flag == false %}
+                            <div class="col"><a class="btn btn-warning" href="/flag_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Flag</a></div>
+
+                            {% else %}
+                            <div class="col"><a class="btn btn-warning" href="/flag_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Unflag</a></div>
+
+                            {% endif %}
+                            <div class="col"><a class="btn btn-danger" href="/admin_delete_song/{{admin.admin_id}}/{{song.song_id}}" role="button" style="width: 100px; font-size:large;">Delete</a></div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- top 20 songs ends here -->
+
+
 
             <!-- songs containers based on different genres -->
             {% for genre in genres %}
