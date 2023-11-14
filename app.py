@@ -1,6 +1,5 @@
 from flask import *
-from flask_restful import *
-from flask_cors import *
+
 from model1 import *
 
 app = Flask(__name__)
