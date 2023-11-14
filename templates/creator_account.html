@@ -64,7 +64,7 @@
             width: auto;
             height: auto;
             background-color: cornsilk;
-            border: 2px solid darkgray;
+            
             margin: 20px;
             
                        
@@ -95,21 +95,21 @@
 
         <!-- Dashboard container start -->
 
-        <div class="dashboard">
+        <div class="dashboard shadow">
 
             <h2>Dashboard</h2>
 
             <div class="container text-center">
                 <div class="row">
-                    <div class="col" id="dashboard-1">
+                    <div class="col shadow" id="dashboard-1">
                         <p style="font-size:x-large;">Total Songs Uploaded</p>
                         <h2>{{songs|length}}</h2>
                     </div>
-                    <div class="col" id="dashboard-1">
+                    <div class="col shadow" id="dashboard-1">
                         <p style="font-size:x-large;">Average Rating</p>
                         <h2>{{avg_rating}}</h2>
                     </div>
-                    <div class="col" id="dashboard-1">
+                    <div class="col shadow" id="dashboard-1">
                         <p style="font-size:x-large;">Total Albums </p>
                         <h2>{{albums|length}}</h2>
                     </div>
@@ -125,7 +125,7 @@
 
         <!-- songs container Start-->
 
-        <div class="songs ">
+        <div class="songs shadow">
 
             {% if songs|length == 0 %}
             <div style="text-align: center;">
@@ -143,14 +143,14 @@
             </div>
             
 
-            <div class="song1">
+            <div class="song1 shadow">
                 
 
                    
 
 
                         {% for song in songs %}
-                        <div class="song">
+                        <div class="song shadow rounded-3">
                             <table bgcolor="cornsilk" class="song-table">
                             <tr >
                                 <td style="text-align: left;padding:10px;font-size:large;width:50%">{{song.song_name}}</td>
@@ -193,7 +193,7 @@
 
         <!-- albums container start -->
 
-        <div class="songs ">
+        <div class="songs shadow ">
 
             {% if albums|length == 0 %}
             <div style="text-align: center;">
@@ -205,20 +205,20 @@
 
 
             {% else %}
-            <div style="font-size:xx-large" class="songs-heading">
+            <div style="font-size:xx-large" class="songs-heading ">
                 <span style="font-weight:500">your uploaded Albums</span>
                <a style="text-align:right; float:inline-end" class="btn btn-primary" href="/add_album/{{user.user_id}}" type="button">+Add Album</a>
             </div>
             
 
-            <div class="song1">
+            <div class="song1 shadow">
                 
 
                    
 
 
                         {% for album in albums %}
-                        <div class="song">
+                        <div class="song shadow">
                             <table bgcolor="cornsilk" class="song-table">
                             <tr >
                                 <td style="text-align: left;padding:10px;font-size:large;width:50%">{{album.album_name}}</td>

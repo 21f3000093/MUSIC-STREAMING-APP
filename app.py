@@ -21,13 +21,16 @@ app.app_context().push()
 def calculate_avg_rating(s_id):
     ratings = Rating.query.filter_by(song_id=s_id).all()
 
+    avg_rating=0
     total_ratings = len(ratings)
     if total_ratings > 0:
-        sum_ratings = sum([rating.rating for rating in ratings])
-        avg_rating = sum_ratings / total_ratings
+        sum_ratings = 0
+        for rating in ratings:
+            sum_ratings += rating.rating
+        avg_rating = (sum_ratings / total_ratings)
         return avg_rating
     else:
-        return 0  # Return 0 if there is no rating
+        return 0  # Returning 0 if there is no rating for a song
 
 
 ########################### login, register Controllers ##########################################
@@ -80,9 +83,9 @@ def logout(u_id):
     return redirect("/")
 
 
-# Register new user
 
 
+### Register new user
 @app.route("/register_user", methods=["GET", "POST"])
 def register_user():
     msg = ""
@@ -287,7 +290,7 @@ def all_playlists(u_id):
 
 @app.route("/album_songs/<int:u_id>/<int:a_id>", methods=["GET", "POST"])
 def album_songs(a_id, u_id):
-    # songs = Song.query.filter(album_id=a_id)
+    
     user = User.query.get(u_id)
     
     songs = Song.query.filter(Song.song_flag==False , Song.album_id==a_id).all()
@@ -339,14 +342,13 @@ def creator_account(u_id):
     user = User.query.get(u_id)
     songs = Song.query.filter_by(creator_id=u_id).all()
     albums = Album.query.filter_by(creator_id=u_id).all()
-    # s_count=len(songs)
     
+    # logic to calculate the avg rating of a creator for his all uploaded songs
     avg_rating=0
     sum_ratings=0
     if songs:
         for song in songs :
             sum_ratings += song.song_avg_rating
-
 
         avg_rating=(sum_ratings/len(songs))
 
@@ -369,7 +371,7 @@ def creator_account(u_id):
 
 @app.route("/creator_album_songs/<int:u_id>/<int:a_id>", methods=["GET", "POST"])
 def creator_album_songs(a_id, u_id):
-    # songs = Song.query.filter(album_id=a_id)
+    
     user = User.query.get(u_id)
     songs = Song.query.filter_by(album_id=a_id).all()
     album = Album.query.get(a_id)
@@ -749,8 +751,6 @@ def admin_song_lyrics(s_id, a_id):
     admin = Admin.query.get(a_id)
     
 
-
-
     return render_template("admin_song_lyrics.html", song=song, admin=admin)
 
 
@@ -788,8 +788,7 @@ def flag_album(a_id,alb_id):
     admin = Admin.query.get(a_id)
     album = Album.query.get(alb_id)
     songs = Song.query.filter_by(album_id=alb_id).all()
-    # album.album_flag = not album.album_flag  # will add after the update in album model
-    # db.session.commit()
+    
     if album.album_flag == False:
         album.album_flag = True
         for song in songs:

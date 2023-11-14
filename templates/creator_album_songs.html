@@ -80,7 +80,7 @@
           <div class="container-fluid vh-100">
             <!-- songs container Start-->
 
-          <div class="songs container-fluid ">
+          <div class="songs container-fluid shadow">
 
             {% if songs|length == 0 %}
             <div style="text-align: center;">
@@ -105,7 +105,7 @@
 
 
                         {% for song in songs %}
-                        <div class="song">
+                        <div class="song shadow">
                             <table bgcolor="cornsilk" class="song-table">
                             <tr >
                                 <td style="text-align: left;padding:10px;font-size:large;width:50%">{{song.song_name}}</td>
