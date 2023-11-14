@@ -1,5 +1,4 @@
 from flask import *
-
 from model1 import *
 
 app = Flask(__name__)
