@@ -12,10 +12,11 @@
 
     {% block content %}
 
-    <div class="container-fluid vh-100">
+    <div class="container-fluid vh-100" style="background-color: aliceblue;">
 
-        <div class="container-fluid w-50 h-50 m-auto position-absolute top-50 start-50 translate-middle" style="background-color: antiquewhite;">
-            <p class="fs-3 text-center text-wrap fst-italic  text-capitalize position-absolute top-50 start-50 translate-middle ">playing song '{{song.song_name}}'</p>
+        <div class="container-fluid w-50 h-50 m-auto position-absolute top-50 start-50 translate-middle shadow" style="background-color: antiquewhite;">
+            <p class="fs-3 text-center text-wrap fst-italic  text-capitalize mt-2 ">playing song '{{song.song_name}}'</p>
+            <audio class="position-absolute top-50 start-50 translate-middle " src="{{ url_for('static', filename=song.song_path)}}" controls autoplay loop preload="auto"></audio>
         </div>
         
     </div>

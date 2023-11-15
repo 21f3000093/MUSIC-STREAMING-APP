@@ -25,7 +25,7 @@ def calculate_avg_rating(s_id):
         sum_ratings = 0
         for rating in ratings:
             sum_ratings += rating.rating
-        avg_rating = (sum_ratings / total_ratings)
+        avg_rating = round((sum_ratings / total_ratings),1)
         return avg_rating
     else:
         return 0  # Returning 0 if there is no rating for a song
@@ -348,7 +348,7 @@ def creator_account(u_id):
         for song in songs :
             sum_ratings += song.song_avg_rating
 
-        avg_rating=(sum_ratings/len(songs))
+        avg_rating=round(sum_ratings/len(songs),1)
 
 
 
@@ -364,6 +364,52 @@ def creator_account(u_id):
         db.session.commit()
         return redirect("/home/{}/creator_account".format(u_id))
 
+
+#### add a new songs
+@app.route("/add_song/<int:u_id>", methods=["GET", "POST"])
+def add_song(u_id):
+    user = User.query.get(u_id)
+    if request.method == "GET":
+        return render_template("add_song_form.html", user=user)
+
+    if request.method == "POST":
+        s_name = request.form.get("s_name")
+        s_artist = request.form.get("s_artist")
+        s_language = request.form.get("s_language")
+        s_genre = request.form.get("s_genre")
+        s_lyrics = request.form.get("s_lyrics")
+        s_duration = request.form.get("s_duration")
+        s_release_date = request.form.get("s_release_date")
+        s_creator_id = u_id
+        song_file=request.files['song_file']
+        s_thumbnail = request.form.get("s_thumbnail")
+
+        s1 = Song(
+            song_name=s_name,
+            song_artist=s_artist,
+            song_language=s_language,
+            song_genre=s_genre,
+            song_lyrics=s_lyrics,
+            song_duration=s_duration,
+            release_date=s_release_date,
+            creator_id=s_creator_id,
+            song_path='',
+            song_thumbnail=s_thumbnail,
+        )
+
+        db.session.add(s1)
+        db.session.commit()
+
+
+        song_file.filename= str(s1.song_id) +  song_file.filename  # this is the solution if two mp3 files have same name
+        s1.song_path=('songs/'+ song_file.filename) # updating the song path (relative path wrt static folder )
+        db.session.commit()
+
+        if song_file:
+            song_file.save('static/songs/' + song_file.filename) # saving the file to the path "static/songs/"
+        
+        
+        return redirect("/home/{}/creator_account".format(u_id))
 
 ####### all songs of an album for creator account
 
@@ -394,8 +440,7 @@ def add_album_song(a_id, u_id):
         s_duration = request.form.get("s_duration")
         s_release_date = request.form.get("s_release_date")
         s_creator_id = u_id
-
-        s_path = request.form.get("s_path")
+        song_file=request.files['song_file']
         s_thumbnail = request.form.get("s_thumbnail")
 
         s1 = Song(
@@ -407,13 +452,23 @@ def add_album_song(a_id, u_id):
             song_duration=s_duration,
             release_date=s_release_date,
             creator_id=s_creator_id,
-            song_path=s_path,
+            song_path=('static/songs/'+ song_file.filename),
             song_thumbnail=s_thumbnail,
             album_id=a_id,
         )
 
         db.session.add(s1)
         db.session.commit()
+
+        song_file.filename= str(s1.song_id) +  song_file.filename  # this is the solution if two mp3 files have same name
+        s1.song_path=('songs/'+ song_file.filename) # updating the song path (relative path wrt static folder )
+        db.session.commit()
+
+        if song_file:
+            song_file.save('static/songs/' + song_file.filename) # saving the file to the path "static/songs/"
+        
+
+
         return redirect("/home/{}/creator_account".format(u_id))
 
 
@@ -430,42 +485,7 @@ def delete_album_song(s_id, u_id, a_id):
         return redirect("/creator_album_songs/{}/{}".format(u_id, a_id))
 
 
-# add new songs
-@app.route("/add_song/<int:u_id>", methods=["GET", "POST"])
-def add_song(u_id):
-    user = User.query.get(u_id)
-    if request.method == "GET":
-        return render_template("add_song_form.html", user=user)
 
-    if request.method == "POST":
-        s_name = request.form.get("s_name")
-        s_artist = request.form.get("s_artist")
-        s_language = request.form.get("s_language")
-        s_genre = request.form.get("s_genre")
-        s_lyrics = request.form.get("s_lyrics")
-        s_duration = request.form.get("s_duration")
-        s_release_date = request.form.get("s_release_date")
-        s_creator_id = u_id
-
-        s_path = request.form.get("s_path")
-        s_thumbnail = request.form.get("s_thumbnail")
-
-        s1 = Song(
-            song_name=s_name,
-            song_artist=s_artist,
-            song_language=s_language,
-            song_genre=s_genre,
-            song_lyrics=s_lyrics,
-            song_duration=s_duration,
-            release_date=s_release_date,
-            creator_id=s_creator_id,
-            song_path=s_path,
-            song_thumbnail=s_thumbnail,
-        )
-
-        db.session.add(s1)
-        db.session.commit()
-        return redirect("/home/{}/creator_account".format(u_id))
 
 
 # creator account song lyrics page
@@ -494,7 +514,7 @@ def update_song(s_id, u_id):
         song.song_lyrics = request.form.get("s_lyrics")
         song.song_duration = request.form.get("s_duration")
         song.release_date = request.form.get("s_release_date")
-        song.song_path = request.form.get("s_path")
+        
         song.song_thumbnail = request.form.get("s_thumbnail")
 
         db.session.commit()
@@ -695,7 +715,7 @@ def creator_uploads(a_id,c_id):
             sum_ratings += song.song_avg_rating
 
 
-        avg_rating=(sum_ratings/len(songs))
+        avg_rating=round(sum_ratings/len(songs),1)
 
 
     return render_template("admin_creator_uploads.html",songs =songs,albums=albums , admin=admin,creator=user ,avg_rating=avg_rating)

@@ -49,6 +49,7 @@ class Song(db.Model):
     song_avg_rating = db.Column(db.Float(), default=0) # included later during devlopement
 
     creator = db.relationship("User", backref="songs")
+    ratings= db.relationship("Rating",backref="song",cascade="all, delete")
 
     def __repr__(self):
         return "%r" % self.song_name
@@ -61,9 +62,9 @@ class Album(db.Model):
     album_genre = db.Column(db.String(50))
     album_artist = db.Column(db.String(100))
     creator_id = db.Column(db.Integer, db.ForeignKey("user.user_id"))
-    # album_play_count = db.Column(db.Integer, default=0) # remove this
+    
     album_thumbnail = db.Column(db.String(255))
-    album_flag = db.Column(db.Boolean,default=False)    #need to add this
+    album_flag = db.Column(db.Boolean,default=False)    
     songs = db.relationship("Song", backref="albums",cascade="all, delete")
     creator = db.relationship("User", backref="albums")
 
@@ -96,7 +97,7 @@ class Rating(db.Model):
     song_id = db.Column(db.Integer, db.ForeignKey("song.song_id"))
     rating = db.Column(db.Integer,default=None)
     user = db.relationship("User", backref="ratings")
-    song = db.relationship("Song", backref="ratings",cascade="all, delete" ) # add cascade all delete
+   
 
 
 
