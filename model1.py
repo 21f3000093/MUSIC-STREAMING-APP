@@ -19,7 +19,7 @@ class User(db.Model):
 
 
 
-
+# Admin Model
 class Admin(db.Model):
     admin_id = db.Column(db.Integer, primary_key=True)
     admin_name = db.Column(db.String(80), nullable=False, unique=True)
