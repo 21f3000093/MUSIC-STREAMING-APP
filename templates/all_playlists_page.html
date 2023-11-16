@@ -83,7 +83,21 @@
                                 </li>
                                 
 
-                                <li style="margin: 50px;"> <a class="btn btn-info" href="/playlist_songs/{{user.user_id}}/{{playlist.playlist_id}}" role="button">Show Tracks</a></li>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <li > <a class="btn btn-info"
+                                                href="/playlist_songs/{{user.user_id}}/{{playlist.playlist_id}}"
+                                                role="button">Tracks</a>
+                                            </li>
+                                        </div>
+                                        <div class="col">
+                                            <li>
+                                                <a class="btn btn-danger" href="/playlist_delete/{{user.user_id}}/{{playlist.playlist_id}}" role="button">Delete</a>
+                                            </li>
+                                        </div>
+                                    </div>
+                                </div>
                             </ul>
                         </div>
 

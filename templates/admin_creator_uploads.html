@@ -145,11 +145,11 @@
 
     <div class="container-fluid ">
         <!-- songs container -->
+        <div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="songs" >
         {% if songs|length == 0 %}
-            <p>No Songs Availaible</p>
+        <p class="text-capitalize fs-2 text-center">No Songs Availaible</p>
         
         {% else %}
-            <div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="songs" >
                 <div class="container-fluid sticky-sm-top">
                     <p class="text-capitalize fs-2 ">all songs</p>
                 </div>
@@ -170,9 +170,9 @@
 
                     {% endfor %}
                 </div>
+                {% endif %}
             </div>
 
-        {% endif %}
         <!-- songs container ends here -->
 
         
@@ -184,11 +184,11 @@
 
     
     
+<div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="albums" >
         {% if albums|length == 0 %}
-        <p>No Album Availaible</p>
+        <p class="text-capitalize fs-2 text-center">No Album Availaible</p>
         
         {% else %}
-            <div class="container-fluid border border border-2 rounded-3 border-dark mb-4 overflow-auto" id="albums" >
                 <div class="container-fluid sticky-sm-top">
                     <p class="text-capitalize fs-2 ">all albums</p>
                 </div>

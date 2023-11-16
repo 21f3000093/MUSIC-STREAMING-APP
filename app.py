@@ -183,7 +183,7 @@ def add_playlist(u_id):
             db.session.add(ps1)
             db.session.commit()
     
-        return redirect("/home/{}".format(u_id))
+        return redirect("/all_playlists/{}".format(u_id))
     
 
 
@@ -198,14 +198,27 @@ def playlist_songs(u_id,p_id):
     songs=[]
     for p_songs in playlist_songs:
         s_id=p_songs.song_id
-        song=Song.query.get(s_id)
-        songs.append(song)
+        
+        song=Song.query.filter(Song.song_id==s_id,Song.song_flag==False).all()
+        if song:
+            songs.extend(song)
 
     
     if request.method=="GET":
         return render_template("playlists_songs.html",user=user,songs=songs,playlist=playlist)    
     
+
+
+### delete a playlist
+@app.route("/playlist_delete/<int:u_id>/<int:p_id>", methods=["GET", "POST"])
+def delete_playlist(u_id,p_id):
+    user = User.query.get(u_id)
+    playlist=Playlist.query.get(p_id)
+
+    db.session.delete(playlist)
+    db.session.commit()
     
+    return redirect("/home/{}".format(u_id))
 
 # Normal user account song lyrics page
 @app.route("/user_song_lyrics/<int:u_id>/<int:s_id>", methods=["GET", "POST"])
@@ -780,6 +793,7 @@ def admin_albums(a_id):
     albums=Album.query.all()
     genres = Album.query.with_entities(Album.album_genre).distinct().all()
     genre_list = [genre[0] for genre in genres]
+
     if admin.isloggedin:
         return render_template("admin_albums.html", songs=songs, admin=admin,genres=genre_list,albums=albums)
 
@@ -813,7 +827,7 @@ def flag_album(a_id,alb_id):
             song.song_flag = True
 
         db.session.commit()
-        return redirect("/admin_albums/{}".format(alb_id))
+        return redirect("/admin_albums/{}".format(a_id))
     
     else:
         album.album_flag = False
@@ -821,7 +835,7 @@ def flag_album(a_id,alb_id):
             song.song_flag = False
 
         db.session.commit()
-        return redirect("/admin_albums/{}".format(alb_id))
+        return redirect("/admin_albums/{}".format(a_id))
     
 
 

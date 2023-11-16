@@ -50,6 +50,7 @@ class Song(db.Model):
 
     creator = db.relationship("User", backref="songs")
     ratings= db.relationship("Rating",backref="song",cascade="all, delete")
+    playlists = db.relationship("Playlist_Songs",backref="song",cascade="all, delete")
 
     def __repr__(self):
         return "%r" % self.song_name
