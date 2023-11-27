@@ -60,7 +60,7 @@
                 <div class="row row-cols-4">
                     {% for song in songs %}
 
-                    <div id="song" class="col  border border-primary-subtle" style="text-transform: capitalize; ">
+                    <div id="song" class="col  border border-primary-subtle shadow" style="text-transform: capitalize; ">
                         <ul type="none">
                             <li>
                                 <p class="fs-3" ><a href="/play_song/{{user.user_id}}/{{song.song_id}}" style="text-decoration: none; color:dimgrey;" onmouseover="this.style.color='black'" onmouseout="this.style.color='dimgrey'" >{{song.song_name}}</a></p>
